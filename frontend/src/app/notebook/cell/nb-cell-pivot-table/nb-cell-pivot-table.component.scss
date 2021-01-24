@@ -1,0 +1,135 @@
+/////////////
+// form elements
+.source-textarea {
+  width: 100%;
+}
+
+/////////
+// sidenav
+mat-sidenav:not(.mat-drawer-opened) {
+  transform: translate3d(0, 0, 0) !important;
+  visibility: visible !important;
+  width: 40px !important;
+  overflow: hidden;
+}
+
+/////////////////////
+// drag'n'drop
+
+.dragdrop-container {
+  width: 250px;
+  max-width: 100%;
+  margin: 0 15px 15px 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.dragdrop-list {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  display: block;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dragdrop-box {
+  padding: 20px 10px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dragdrop-box:last-child {
+  border: none;
+}
+
+.dragdrop-list.cdk-drop-list-dragging .dragdrop-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+//////////////////////
+// table
+.table-container {
+  height: 400px;
+  overflow: auto;
+}
+
+.mat-table-sticky {
+  background: #f0f0f0;
+  // opacity: 1;
+}
+
+.mat-column-filler {
+  padding: 0 8px;
+  font-size: 10px;
+  text-align: center;
+}
+
+.mat-header-cell,
+.mat-footer-cell,
+.mat-cell[role="gridcell"] {
+  // min-width: 80px;
+  // box-sizing: border-box;
+  justify-content: center;
+}
+
+.mat-header-row,
+.mat-footer-row,
+.mat-row {
+  // min-width: 1920px; /* 24 columns, 80px each */
+}
+
+// .mat-form-field {
+//   font-size: 14px;
+//   width: 100%;
+// }
+
+/////////////
+/// paginator
+.mat-paginator-container {
+  width: 50%;
+}
+
+/////////////
+// select
+.select-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+
+///////////
+// apex chart
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}
+
+.pivot-items-available {
+  float: left;
+  max-width: 50%;
+}

@@ -1,0 +1,36 @@
+  ZNspace "%SYS"
+  Write $CLASSMETHOD("Security.Users", "UnExpireUserPasswords", "*")
+
+  // Mandatory in order to allow CORS
+  Set db = $CLASSMETHOD("SYS.Database", "%OpenId", "/usr/irissys/mgr/user/")
+  Write $CLASSMETHOD("SYS.Database", "ModifyDatabase", db.Directory, db.Size, "%DB_IRISTEMP", db.GlobalJournalState)
+
+  ZNspace "USER"
+  ZPM "install sslclient"
+  ZPM "install csvgen"
+  ZPM "install webterminal"
+  ZPM "install restforms2"
+
+  Do $SYSTEM.OBJ.LoadDir("/data/src","cuk",,1)
+
+  Write ##class(Util.Loader).Load("/data/breast-cancer.csv","User.BreastCancer")
+
+  Write ##class(Util.Loader).Load("/data/Campaign.csv","User.Campaign",";")
+
+  Do ##class(community.csvgen).Generate("/data/titanic.csv",",","User.Passengers")
+  Do ##class(community.csvgen).GenerateFromURL("https://raw.githubusercontent.com/datasciencedojo/datasets/master/WorldDBTables/CountryTable.csv",",","User.Countries")
+
+  Do ##class(community.csvgen).Generate("/data/readmission.csv",",","User.Readmission")
+  
+  ZNspace "%SYS"
+  Set webName = "/imageserver"
+  Set webProperties("DispatchClass") = "dc.rest.SimpleImageServer"
+  Set webProperties("NameSpace") = "USER"
+  Set webProperties("Enabled") = 1
+  Set webProperties("AutheEnabled") = 32
+  Write $CLASSMETHOD("Security.Applications", "Create", webName, .webProperties)
+
+  ZNspace "USER"
+  Write ##class(dc.multimodel.ImageIndex.Test).Create("/data/img", 1, $LISTBUILD("/data/img/test")), !
+
+  Halt

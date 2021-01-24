@@ -1,0 +1,31 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      View SQL
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <markdown [data]="sql"></markdown>
+</mat-expansion-panel>
+<div class="spinner-container" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="image-search-container" *ngIf="!loading">
+  <div class="image-search-pane">
+    <div>Select an image to look for similar:</div>
+    <mat-card *ngFor="let image of images; let idx = index" (click)="onSelectCard(idx)" [ngClass]="{'search': true, 'card-selected': isCardSelected(idx)}">
+      <img
+        [src]="'http://localhost:8092/imageserver/download?filename=' + image"
+        (click)="search(image)"
+      />
+    </mat-card>
+  </div>
+  <div class="image-search-pane">
+    <div>Images retrieved by color similarity:</div>
+    <div *ngIf="colorSimilars.length === 0" class="no-selected-pane">Select one image in left panel</div>
+    <mat-card *ngFor="let similar of colorSimilars">
+      <img
+        [src]="'http://localhost:8092/imageserver/download?filename=' + similar"
+      />
+    </mat-card>
+  </div>  
+</div>

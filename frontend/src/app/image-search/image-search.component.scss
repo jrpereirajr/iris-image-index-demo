@@ -1,0 +1,35 @@
+.image-search-container {
+  margin-top: 10px;
+}
+
+.image-search-pane {
+  float: left;
+  width: 50%;
+  padding: 5px;;
+}
+
+.image-search-pane mat-card {
+  display: inline-block;
+  width: 200px;
+  margin: 2px;
+}
+
+.image-search-pane mat-card.search {
+  cursor: pointer;
+}
+
+.image-search-pane img {
+  max-width:100%;
+  height:auto;
+}
+
+.card-selected {
+  border: 2px dotted black;
+}
+
+.no-selected-pane {
+  height: 400px;
+  line-height: 400px;
+  text-align: center;
+  border: 2px dashed black;
+}
