@@ -20,7 +20,7 @@ Method %OnNew() As %Status
 
 ClassMethod Execute() As %Status
 {
-  Set sc = ##class(dc.multumodel.example.TestDocDB).%New().Main()
+  Set sc = ##class(dc.multimodel.example.TestDocDB).%New().Main()
   Return sc
 }
 

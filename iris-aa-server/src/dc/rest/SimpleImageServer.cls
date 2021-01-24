@@ -153,8 +153,8 @@ ClassMethod FastColorthiefTest() As %Status
   Set sc  = $$$OK
   Try {
     $$$ThrowOnError(..UploadFile(.imagepath))
-    Set json = ##class(dc.multumodel.example.TestPython).PythonImport("json")
-    Set fastcolorthief =  ##class(dc.multumodel.example.TestPython).PythonImport("fast_colorthief")
+    Set json = ##class(dc.multimodel.example.TestPython).PythonImport("json")
+    Set fastcolorthief =  ##class(dc.multimodel.example.TestPython).PythonImport("fast_colorthief")
     Set dominantcolor = fastcolorthief."get_dominant_color"(imagepath, 1)
     Set colorpalette = fastcolorthief."get_palette"(imagepath)
     Set resp = {
