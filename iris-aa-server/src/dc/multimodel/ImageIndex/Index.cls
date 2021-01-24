@@ -6,21 +6,33 @@ Class dc.multimodel.ImageIndex.Index Extends %Library.FunctionalIndex [ System =
 ClassMethod DeleteIndex(pID As %CacheString, pArg... As %Binary) [ CodeMode = generator, ServerOnly = 1 ]
 {
 	If (%mode '= "method") {
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- DeleteIndex -------- "")")
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log(pID, ""pID"")")
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("".pArg"", ""pArg"")")
+		$$$GENERATE("	Try {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- DeleteIndex -------- "")")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(pID, ""pID"")")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("".pArg"", ""pArg"")")
+		$$$GENERATE("		Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
+		$$$GENERATE("		Set indexGlb = indexer.GetIndexLocation()")
+		$$$GENERATE("		Kill @indexGlb@(pID)")
+		$$$GENERATE("	} Catch(e) {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
+		$$$GENERATE("	}")
 	}
 }
 
 ClassMethod Find(pSearch As %Binary) As %Library.Binary [ CodeMode = generator, ServerOnly = 1, SqlProc ]
 {
 	If (%mode '= "method") {
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- Find -------- "")")
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log(pSearch, ""pSearch"")")
-		$$$GENERATE("	Set result = ##class(dc.multimodel.ImageIndex.SQLFind).%New()")
-		$$$GENERATE(" Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
-		$$$GENERATE("	Set result.Indexer = indexer")
-		$$$GENERATE("	Do result.PrepareFind(pSearch)")
+		$$$GENERATE("	Set result = """"")
+		$$$GENERATE("	Try {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- Find -------- "")")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(pSearch, ""pSearch"")")
+		$$$GENERATE("		Set result = ##class(dc.multimodel.ImageIndex.SQLFind).%New()")
+		$$$GENERATE("		Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
+		$$$GENERATE("		Set result.Indexer = indexer")
+		$$$GENERATE("		Do result.PrepareFind(pSearch)")
+		$$$GENERATE("	} Catch(e) {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
+		$$$GENERATE("	}")
 		$$$GENERATE("	Return result")
 	}
 }
@@ -38,8 +50,8 @@ ClassMethod InsertIndex(pID As %CacheString, pArg... As %Binary) [ CodeMode = ge
 		$$$GENERATE(" 	Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
 		$$$GENERATE("		Do indexer.GetDominantColor(pArg(1), .rgb)")
 		$$$GENERATE("		Set indexGlb = indexer.GetIndexLocation()")
-		$$$GENERATE("		Set @indexGlb@($INCREMENT(@indexGlb)) = pID")
-		$$$GENERATE("		Merge @indexGlb@(@indexGlb) = rgb")
+		$$$GENERATE("		Set @indexGlb@(pID) = pID")
+		$$$GENERATE("		Merge @indexGlb@(pID) = rgb")
 		$$$GENERATE("	} Catch(e) {")
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
 		$$$GENERATE("	}")
@@ -49,25 +61,37 @@ ClassMethod InsertIndex(pID As %CacheString, pArg... As %Binary) [ CodeMode = ge
 ClassMethod PurgeIndex() [ CodeMode = generator, ServerOnly = 1 ]
 {
 	If (%mode '= "method") {
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- PurgeIndex -------- "")")
-		$$$GENERATE(" Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
-		$$$GENERATE(" Set indexGbl = indexer.GetIndexLocation()")
-		$$$GENERATE(" Kill @indexGbl")
+		$$$GENERATE("	Try {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- PurgeIndex -------- "")")
+		$$$GENERATE(" 	Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
+		$$$GENERATE(" 	Set indexGbl = indexer.GetIndexLocation()")
+		$$$GENERATE(" 	Kill @indexGbl")
+		$$$GENERATE("	} Catch(e) {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
+		$$$GENERATE("	}")
 	}
 }
 
 ClassMethod SortBeginIndex() [ CodeMode = generator, ServerOnly = 1 ]
 {
 	If (%mode '= "method") {
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- SortBeginIndex -------- "")")
+		$$$GENERATE("	Try {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- SortBeginIndex -------- "")")
+		$$$GENERATE("	} Catch(e) {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
+		$$$GENERATE("	}")
 	}
 }
 
 ClassMethod SortEndIndex(pCommit As %Integer = 1) [ CodeMode = generator, ServerOnly = 1 ]
 {
 	If (%mode '= "method") {
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- SortEndIndex -------- "")")
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log(pCommit, ""pCommit"")")
+		$$$GENERATE("	Try {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- SortEndIndex -------- "")")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(pCommit, ""pCommit"")")
+		$$$GENERATE("	} Catch(e) {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
+		$$$GENERATE("	}")
 	}
 }
 
@@ -75,9 +99,19 @@ ClassMethod SortEndIndex(pCommit As %Integer = 1) [ CodeMode = generator, Server
 ClassMethod UpdateIndex(pID As %CacheString, pArg... As %Binary) [ CodeMode = generator, ServerOnly = 1 ]
 {
 	If (%mode '= "method") {
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- UpdateIndex -------- "")")
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log(pID, ""pID"")")
-		$$$GENERATE("	Do ##class(dc.multimodel.ImageIndex.Log).Log(.pArg, ""pArg"")")
+		$$$GENERATE("	Try {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- UpdateIndex -------- "")")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(pID, ""pID"")")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(.pArg, ""pArg"")")
+		$$$GENERATE(" 	Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
+		$$$GENERATE("		Do indexer.GetDominantColor(pArg(1), .rgb)")
+		$$$GENERATE("		Set indexGlb = indexer.GetIndexLocation()")
+		$$$GENERATE("		Kill @indexGlb@(pID)")
+		$$$GENERATE("		Set @indexGlb@(pID) = pID")
+		$$$GENERATE("		Merge @indexGlb@(pID) = rgb")
+		$$$GENERATE("	} Catch(e) {")
+		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
+		$$$GENERATE("	}")
 	}
 }
 
