@@ -54,6 +54,7 @@ $ docker-compose up
 ```
 cd iris-image-index-demo
 cd frontend
+npm i
 npx ng serve
 ```
 
