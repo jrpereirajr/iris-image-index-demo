@@ -3,25 +3,13 @@
   <Document name="iris-image-index-demo.ZPM">
     <Module>
       <Name>iris-image-index-demo</Name>
-      <Description>A SQL index for image data.</Description>
-      <Version>0.0.0</Version>
+      <Description>A demo on how to build a custom SQL index for images data type.</Description>
+      <Version>0.0.1</Version>
       <Packaging>module</Packaging>
       <SourcesRoot>iris-aa-server/src</SourcesRoot>
-      <Resource Name="dc.multimodel.PKG"/>
+      <Resource Name="dc.multimodel.ImageIndex.PKG"/>
       <!-- <UnitTest Name="tests" Package="UnitTest" Phase="test"/> -->
       <!-- <SystemRequirements Version=">=2020.3" Interoperability="enabled" /> -->
-      <Dependencies>
-        <ModuleReference>
-          <Name>restforms2</Name>
-          <Version>1.0.8</Version>
-        </ModuleReference>
-      </Dependencies>
-      <Dependencies>
-        <ModuleReference>
-          <Name>iris-analytics-sample</Name>
-          <Version>1.0.1</Version>
-        </ModuleReference>
-      </Dependencies>
       <Dependencies>
         <ModuleReference>
           <Name>restforms2</Name>
