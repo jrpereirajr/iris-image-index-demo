@@ -27,7 +27,7 @@ ClassMethod ExecuteCRUD() As %Status
 	Return sc
 }
 
-ClassMethod Create(pDir = "/data/img", pRecursive As %Boolean = 1, pIgnoreList As %List = "") As %Status
+ClassMethod Create(pDir = "/data/img", pRecursive As %Boolean = 1, pIgnoreList As %List = {$LB("/data/img/test")}) As %Status
 {
 	Set %c = 0
 	Set %max = ""
@@ -83,7 +83,6 @@ ClassMethod Retrieve() As %Status
 	"SELECT * "_
 	"FROM dc_multimodel_ImageIndex.Test "_
 	"WHERE "_
-		//"Id %FIND search_index(idxImageFile,'{""parity"":""odd""}') "
 		"ID %FIND search_index(idxImageFile,'{""color_similarity"": {""image"": ""/data/img/short-sleeve-top/green/16107484909318.jpg"", ""first"": 10}}')"
 	Set tStatement = ##class(%SQL.Statement).%New()
 	Set sc = tStatement.%Prepare(sql)

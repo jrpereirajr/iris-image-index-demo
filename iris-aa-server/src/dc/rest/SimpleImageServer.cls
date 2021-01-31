@@ -108,34 +108,26 @@ ClassMethod GetColorSimilarImages() As %Status
 	Try {
  		Set Location = $GET(^Settings("user_files_dir"), "/data/img")
 		Set filename = $GET(%request.Data("filename", 1))
+		Set image = Location_"/"_filename
 		Set searchConfig = {
 			"color_similarity": {
-				"image": (Location_"/"_filename),
-				"first": 5
+				"image": (image),
+				"first": 5,
+				"strategy": "knn"
 			}
 		}.%ToJSON()
-		/*
-		&SQL(
-			SELECT %DLIST(ImageFile) INTO :similarImagesList FROM dc_multimodel_ImageIndex.Test WHERE 
-				ID %FIND search_index(idxImageFile, :searchConfig)
-		)
-		If (SQLCODE '= 0) && (SQLCODE '= 100) {
-			Throw ##class(%Exception.SQL).CreateFromSQLCODE(SQLCODE, "")
-		}
-		*/
 		Set similarImagesList = ""
 		Set sql = 
-		"SELECT %DLIST(ImageFile) AS similarImagesList "_
+		"SELECT "_
+			"ImageFile, "_
+			"dc_multimodel_ImageIndex.Test_idxImageFileDiffRank('"_searchConfig_"', id) AS DiffRank "_
 		"FROM dc_multimodel_ImageIndex.Test WHERE "_
-			"ID %FIND search_index(idxImageFile, '"_searchConfig_"')"
+			"ID %FIND search_index(idxImageFile, '"_searchConfig_"') "_
+		"ORDER BY DiffRank"
 		Set rs = ##class(%SQL.Statement).%ExecDirect(, sql)
-		If (rs.%Next()) {
-			Set similarImagesList = rs.similarImagesList
-		}
 		Set similarImages = []
-		For i = 1:1:$LISTLENGTH(similarImagesList) {
-			Set imgFile = $LISTGET(similarImagesList, i)
-			Set imgFile = $REPLACE(imgFile, Location, "")
+		While (rs.%Next()) {
+			Set imgFile = $REPLACE(rs.ImageFile, Location, "")
 			Do similarImages.%Push(imgFile)
 		}
 		Write {
@@ -153,8 +145,8 @@ ClassMethod FastColorthiefTest() As %Status
   Set sc  = $$$OK
   Try {
     $$$ThrowOnError(..UploadFile(.imagepath))
-    Set json = ##class(dc.multimodel.example.TestPython).PythonImport("json")
-    Set fastcolorthief =  ##class(dc.multimodel.example.TestPython).PythonImport("fast_colorthief")
+    Set json = ##class(%SYS.Python).Import("json")
+    Set fastcolorthief = ##class(%SYS.Python).Import("fast_colorthief")
     Set dominantcolor = fastcolorthief."get_dominant_color"(imagepath, 1)
     Set colorpalette = fastcolorthief."get_palette"(imagepath)
     Set resp = {

@@ -28,7 +28,7 @@ In order to create a custom SQL index, the %Library.FunctionalIndex and %SQL.Abs
 
 For image feature extraction, the new [IRIS Embedded Python](https://learning.intersystems.com/course/view.php?id=1572&ssoPass=1) technology was used. Such technology allows you to execute Python code directly from a COS context.
 
-Internally, image features are stored in key-value model (globals). When a SQL query using the image index is performed, the features of the input image is extracted and compared to fetures stored in the index global.
+Internally, image features are stored in key-value model (globals). When a SQL query using the image index is performed, the features of the input image are extracted and compared to fetures stored in the index global.
 
 This way, you can boost IRIS infrasctructures - acessed througth COS, using Python's advanced libs to delivere exciting features.
 
@@ -49,7 +49,7 @@ $ cd iris-image-index-demo
 $ docker-compose up
 ```
 
-4. Wait for backend container to up and then build the frontend (in a new terminal instance):
+Wait for backend container to up and then build the frontend (in a new terminal instance):
 
 ```
 cd iris-image-index-demo
@@ -58,7 +58,7 @@ npm i
 npx ng serve
 ```
 
-5. Access the [application](http://localhost:4200). Username: superuser; password: SYS.
+Access the [application](http://localhost:4200). Username: superuser; password: SYS.
 
 ## Installation (ZPM)
 

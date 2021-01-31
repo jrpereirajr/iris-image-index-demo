@@ -1,6 +1,7 @@
 Class dc.multimodel.example.TestPython Extends %RegisteredObject
 {
 
+/// ln -s /shared/python-lib/barchart /usr/irissys/mgr/python/
 ClassMethod Main() As %Status
 {
   Set sc = $$$OK
@@ -76,6 +77,7 @@ ClassMethod Example4VirtualSummit() As %Status
     Set barchart = ##class(%SYS.Python).Import("barchart")
   }
   Set df = barchart.exampleDF()
+  ZWrite df
   Do b.print(df."to_string"())
   Do barchart.buildGraph("/shared/barchart_example.svg", df, "Country", "GPD_Per_Capita")
   Return sc
@@ -88,11 +90,13 @@ ClassMethod TestColor1() As %Status
   Set sc = $$$OK
   
   //Set json = ..PythonImport("jsonpickle")
+  Set b = ##class(%SYS.Python).Import("builtins")
   Set json = ..PythonImport("json")
   Set fastcolorthief = ..PythonImport("fast_colorthief")
   Set imagepath = "/shared/test.png"
   Set dominantcolor = fastcolorthief."get_dominant_color"(imagepath, 1)
   Set colorpalette = fastcolorthief."get_palette"(imagepath)
+  Do b.print(dominantcolor, colorpalette)
   //ZWrite dominantcolor, colorpalette
   //ZWrite {}.%FromJSON(json.encode(dominantcolor)), {}.%FromJSON(json.encode(colorpalette))
   ZWrite {}.%FromJSON(json.dumps(dominantcolor)), {}.%FromJSON(json.dumps(colorpalette))
@@ -133,6 +137,43 @@ ClassMethod TestColor3() As %Status
   ZWrite {}.%FromJSON(json.dumps(colors))
 
   Return sc
+}
+
+ClassMethod TestKNN() As %Status
+{
+  Set sc = $$$OK
+  Set b = ##class(%SYS.Python).Import("builtins")
+  Set json = ##class(%SYS.Python).Import("json")
+  Set knn = ##class(%SYS.Python).Import("knn")
+
+  Set k = 5
+  Set x = "[[235, 198, 96]]"
+  Set ind = knn.query(x, k, 3)
+  Do b.print(ind.tolist())
+  zw {}.%FromJSON(json.dumps(ind.tolist()))
+
+  Return sc
+}
+
+/// Install PIP packages to default PIP directory instead of %SYS.Python's default directory
+ClassMethod Install(packages)
+{
+  Set dir = ##class(%File).SubDirectoryName($SYSTEM.Util.ManagerDirectory(),"python",1)
+  Set builtins = ##class(%SYS.Python).Import("builtins")
+  Set pip = ##class(%SYS.Python).Import("pip._internal")
+  Set args = builtins.list()
+
+  Do args.append("install")
+  //Do args.append("--target="_dir)
+  Do args.append($TRANSLATE($ZSTRIP(packages,"*W"),","," "))
+
+  // Now install ...
+  Set r = pip.main(args)
+  If r {
+    zw r
+    Set status = $$$ERROR($$$PythonPipInstallFailed,r)
+    Quit
+  }
 }
 
 }

@@ -41,7 +41,8 @@ export class ImageSearchComponent implements OnInit {
       \`\`\`sql
       ${similars.sql
           .replace('FROM', '\nFROM')
-          .replace('WHERE', '\nWHERE\n\t\t\t')}
+          .replace('WHERE', '\nWHERE')
+          .replace('ORDER BY', '\nORDER BY')}
       \`\`\``;
     });
   }

@@ -14,6 +14,15 @@ COPY data /data
 COPY src /data/src
 COPY iris.script /tmp/iris.script
 
+# python stuffs...
+RUN iris start IRIS \
+	&& iris session IRIS '##class(%SYS.Python).Install("/shared/python-lib/irisnative-1.0.0-cp34-abi3-linux_x86_64.whl")' \
+	&& iris session IRIS '##class(%SYS.Python).Install("scikit-learn")' \
+	&& iris session IRIS '##class(%SYS.Python).Install("fast_colorthief")' \
+	&& iris session IRIS '##class(%SYS.Python).Install("json")'
+
+RUN ln -s /shared/python-lib/knn /usr/irissys/mgr/python/
+
 # load demo stuff
 RUN iris start IRIS \
 	&& iris session IRIS < /tmp/iris.script
