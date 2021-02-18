@@ -56,7 +56,7 @@ ClassMethod InsertIndex(pID As %CacheString, pArg... As %Binary) [ CodeMode = ge
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("""_%property_""", ""%property"")")
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(pID, ""pID"")")
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(.pArg, ""pArg"")")
-		$$$GENERATE(" 	Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
+		$$$GENERATE("		Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
 		$$$GENERATE("		Set indexer.Cardinality = "_..#Cardinality)
 		$$$GENERATE("		Do indexer.Insert(pID, pArg...)")
 		$$$GENERATE("	} Catch(e) {")
@@ -74,7 +74,7 @@ ClassMethod PurgeIndex() [ CodeMode = generator, ServerOnly = 1 ]
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log("" -------- PurgeIndex -------- "")")
 		$$$GENERATE("		Set indexer = ##class(dc.multimodel.ImageIndex.Indexer).GetInstance("""_%class_""", """_%property_""")")
 		$$$GENERATE("		Set indexer.Cardinality = "_..#Cardinality)
-		$$$GENERATE(" 	Set indexGbl = indexer.GetIndexLocation()")
+		$$$GENERATE("		Set indexGbl = indexer.GetIndexLocation()")
 		$$$GENERATE("		Do indexer.Purge()")
 		$$$GENERATE("	} Catch(e) {")
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
@@ -93,7 +93,6 @@ ClassMethod SortBeginIndex() [ CodeMode = generator, ServerOnly = 1 ]
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
 		$$$GENERATE("		Throw e")
 		$$$GENERATE("	}")
-		$$$GENERATE("	Quit $$$OK")
 	}
 	Return $$$OK
 }
@@ -108,7 +107,6 @@ ClassMethod SortEndIndex(pCommit As %Integer = 1) [ CodeMode = generator, Server
 		$$$GENERATE("		Do ##class(dc.multimodel.ImageIndex.Log).Log(e.AsStatus(), ""error"")")
 		$$$GENERATE("		Throw e")
 		$$$GENERATE("	}")
-		$$$GENERATE("	Quit $$$OK")
 	}
 	Return $$$OK
 }
